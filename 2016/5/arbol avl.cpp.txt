@@ -1,0 +1,268 @@
+#include <stdio.h>
+
+#include <iostream>
+
+#include <conio.h>
+
+
+
+using namespace std;
+
+
+
+typedef int tarbol;
+
+struct nodo{
+
+      tarbol info;
+
+      nodo *izq,*der;//struc nodo q tiene info del tipo arbol y dos punteros
+
+};
+
+typedef nodo * pnodo;
+
+class arbol{//definimos la clase arbol
+
+    pnodo raiz, q;//puntero q apunta a raiz y el otro q aux
+
+    void ArbolBusq(tarbol x, pnodo &nuevo);//meto arbol busq el ampersan pasa x referencia
+
+    void rid(pnodo aux);//metodos de recorridos
+
+    void ird(pnodo aux);
+
+    void idr(pnodo aux);
+
+    void show(pnodo aux, int n);
+
+void showhojas(pnodo aux);
+
+bool detectar (pnodo aux,int d);
+
+tarbol menor (pnodo aux);
+
+   // void borrar() {borrar(raiz,x);	}
+
+ 
+
+public:
+
+    arbol(){raiz=NULL;};
+
+    ~arbol(){};
+
+    void CreaArbolBus(tarbol x);
+
+    void RID(){ rid(raiz); }
+
+    void IRD(){ ird(raiz); }
+
+    void IDR(){ idr(raiz); }
+
+    void VerArbol(){ show(raiz,0); }
+
+ 	void VerHojas() { showhojas(raiz);}
+
+ 	bool DETEC(int d) {return detectar(raiz, d);}
+
+ 	tarbol MENORARB() {return menor(raiz); }
+
+ 
+
+};
+
+tarbol arbol::menor(pnodo aux)
+
+{
+
+if(aux->izq==NULL) return aux->info;
+
+return menor(aux->izq);
+
+}
+
+
+
+bool arbol::detectar(pnodo aux,int d)
+
+{	if(aux!=NULL)
+
+detectar(aux->izq,d);
+
+detectar(aux->der,d);
+
+if(aux->info==d) return true;
+
+else return false;
+
+// otra forma es esta(pnodo aux, tarbol x)
+
+//	inf(aux==NULL) return false;
+
+//else if(x>aux->info) return esta(aux->der,x);
+
+//else if(x>aux->info) return esta(aux->izq,x);
+
+//return true;
+
+
+}
+
+
+
+void arbol::showhojas(pnodo aux)
+
+{	if(aux!=NULL)
+
+showhojas(aux->izq);
+
+showhojas(aux->der);
+
+if (aux->izq==NULL && aux->der==NULL)
+
+cout<<"\n"<<aux->info;
+
+}
+
+
+
+//cuando se crea el arbol al principio pone el puntero a null
+
+void arbol::CreaArbolBus(tarbol x)
+
+{ ArbolBusq(x,raiz);//llama a arbolbus
+
+}
+
+void arbol::ArbolBusq(tarbol x, pnodo &nuevo)
+
+{
+
+  if(nuevo==NULL){//si el nodo es nulo, se crea el nodo nvo y se guarda el valor y los punteros  izq y der son null
+
+      nuevo= new nodo;
+
+      nuevo->info=x; nuevo->der=nuevo->izq=NULL;
+
+  }
+
+  if(x > nuevo->info) ArbolBusq(x, nuevo->der);//cuando nvo->der/izq se carga el nodo
+
+  if(x < nuevo->info) ArbolBusq(x, nuevo->izq);
+
+}
+
+void arbol::ird(pnodo aux)
+
+{  if(aux!=NULL){
+
+        ird(aux->izq);
+
+        cout<<"\n"<<aux->info;
+
+        ird(aux->der);
+
+   }
+
+}
+
+void arbol::rid(pnodo aux)
+
+{  if(aux!=NULL){
+
+        cout<<"\n"<<aux->info;
+
+        rid(aux->izq);
+
+        rid(aux->der);
+
+   }
+
+}
+
+void arbol::idr(pnodo aux) //recbe un puntero nodo y si la raix eno es nula se va x la izq
+
+{  if(aux!=NULL){
+
+        idr(aux->izq);
+
+        idr(aux->der);
+
+        cout<<"\n"<<aux->info;
+
+   }
+
+}
+
+void arbol::show(pnodo aux, int n)
+
+{ int i;
+
+   if(aux!=NULL){                      //OjO este es un recorrido dri
+
+       show(aux->der, n+1);
+
+       for(i=1; i<=n; i++) cout<<"     ";
+
+       cout<<aux->info<<"\n";
+
+       show(aux->izq, n+1);
+
+   }
+
+}
+
+//-------------------------------------------------------
+
+int main (int argc, char *argv[])
+
+{  int i; tarbol x;
+
+   arbol T;
+
+   int vec[10]={50,12,18,240,222,45,410,325,38,95};
+
+   for(i=0;i<10;i++){ 
+
+                      T.CreaArbolBus(vec[i]);
+
+                      T.VerArbol();
+
+                      cout<<"--------------------------------\n";
+
+                      //system("PAUSE");
+
+   } 
+
+                     
+
+   T.VerArbol();
+
+   cout<<"IRD -----------\n";
+
+   T.IRD();
+
+   cout<<"\n--------------------------------";
+
+   cout<<"RID -----------\n";
+
+   T.RID();
+
+   cout<<"\n--------------------------------";
+
+   cout<<"IDR -----------\n";
+
+   T.IDR();  
+
+  	T.VerHojas();
+
+   cout<<endl;
+
+   T.DETEC(50);
+
+   system("PAUSE");
+
+   return 0;
+
+}

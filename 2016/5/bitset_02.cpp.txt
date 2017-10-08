@@ -1,0 +1,78 @@
+#include <iostream>
+#include <string>
+#include <bitset>
+using namespace std;
+class xx{
+      public:
+      bitset<7> M[7];//genera una matriz de bits de 7x7 x ej
+      void impre();
+      //definiendo and de conjuntos
+      friend xx operator &(xx c1, xx c2);
+      // definiendo or de conjuntos
+      friend xx operator |(xx c1, xx c2);
+      int count();  //contador de 1
+      friend xx operator <<(xx c1,int n);
+};
+xx operator <<(xx c1, int n){
+     for(int i=0;i<7;i++)
+            c1.M[i]<<=n;
+     return c1;
+}
+       
+xx operator &(xx c1, xx c2){ 
+     xx c3;
+     for(int i=0;i<7;i++)
+            c3.M[i] = c1.M[i]&c2.M[i];
+     return c3;
+}
+void xx::impre(){
+     int i,j;
+     for(i=0;i<7;i++){
+                      cout<<endl;
+                      for(j=6;j>=0;j--)                 
+                          cout<<this->M[i][j]<<"  ";
+     }
+     cout<<endl;
+}
+                     
+int main ()
+{  xx a,b,c; //genero a,b yc del tipo xx
+   a.M[0][3]=1; a.M[1][2]=1;// asignacion en a en la posicion 0,3 y 1,2 (pone 1 en esas posiciones)
+   cout<<"a.count="<<a.count()<<endl;
+   a.impre();
+   /*cout<<"----------------------"<<endl;
+   b=a;
+   b.impre();
+   */
+   b.M[1].set(); b.M[3].set(); //al poner 1 se clava en 1
+   cout<<"b.count="<<b.count()<<endl;
+   b.impre();
+   c=a&b;
+   c.impre();
+   c=a|b;
+   c.impre();
+   c=c<<2;
+   c.impre();
+   //b.impre();
+   //cout<<endl;
+   //c.impre();
+   
+  cout<<endl<<endl;
+  system("PAUSE");
+  return 0;
+}
+
+int xx::count(){
+    int c=0;
+    for(int i=0;i<7;i++)
+            c=c+M[i].count();
+    return c;
+}
+            
+xx operator |(xx c1, xx c2){
+     xx c3;
+     for(int i=0;i<7;i++)
+            c3.M[i]= c1.M[i]|c2.M[i];
+     return c3;
+}
+            

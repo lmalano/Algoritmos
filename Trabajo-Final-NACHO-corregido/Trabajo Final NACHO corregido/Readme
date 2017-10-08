@@ -1,0 +1,3 @@
+Falta probar el metodo OperarRouters, el caso en que un router manda paquetes a otro. Ya anda la parte de repartir paquetes y la de entregar las paginas completas.
+Con el OperarRouters, hay que probar RecibirPaquetes de la clase router.
+El problema esta en la entrega de las paginas completas.
